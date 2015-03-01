@@ -13,6 +13,21 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    //將資料庫檔案複製到具有寫入權限的目錄
+    NSFileManager *fm = [[NSFileManager alloc]init];
+    NSString *src = [[NSBundle mainBundle]pathForResource:@"sample" ofType:@"sqlite"];
+    NSString *dst = [NSString stringWithFormat:@"%@/Documents/sample.sqlite",NSHomeDirectory()];
+    //APP啓用的時候在@/Documents 沒有資料庫，所以要從APP裡面把sample.sqlite資料庫拷貝到 @/Documents/ 資料夾下
+    //拷貝完資料庫後,刪除掉App裡面的資料庫檢查目的地的檔案是否存在，如果不存在則複製資料庫
+    //    if(![fm fileExistsAtPath:dst]){
+    //    	[fm copyItemAtPath:src toPath:dst error:nil];
+    //        [fm removeItemAtPath:src error:nil];
+    //    }
+    
+    //每次都把資料庫Copy到Document資料夾下
+    [fm removeItemAtPath:dst error:nil];
+    [fm copyItemAtPath:src toPath:dst error:nil];
+
     return YES;
 }
 							
